@@ -142,7 +142,6 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
     synth_data = np.append(synth_data, income.reshape((len(income), 1)), axis=1)
 
     return pd.DataFrame(synth_data,
-                        index=train_dataset.index,
                         columns=train_dataset.columns)
 
 
