@@ -98,7 +98,7 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
     data = train_dataset.values
 
     data_filename = os.path.join(models_dir, 'adult.npy')
-    model_filename = os.path.join(models_dir, 'fairgan.ckpt')
+    model_filename = os.path.join(models_dir, 'fairgan.pkl')
 
     with open(data_filename, 'wb') as data_file:
         pickle.dump(data, data_file)
@@ -118,17 +118,19 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
                 l2scale=l2_scale)
 
     out_file = 'fair'
-    
-    mg.train(dataPath=data_filename,
-             modelPath='',
-             outPath=out_file,
-             pretrainEpochs=pretrain_epochs,
-             nEpochs=train_epochs,
-             discriminatorTrainPeriod=2,
-             generatorTrainPeriod=1,
-             pretrainBatchSize=batch_size,
-             batchSize=batch_size,
-             saveMaxKeep=0)
+
+    if not os.path.exists('fair-9.meta'):
+        mg.train(dataPath=data_filename,
+                modelPath='',
+                outPath=out_file,
+                pretrainEpochs=pretrain_epochs,
+                nEpochs=train_epochs,
+                discriminatorTrainPeriod=2,
+                generatorTrainPeriod=1,
+                pretrainBatchSize=batch_size,
+                batchSize=batch_size,
+                saveMaxKeep=0)
+
     tf.compat.v1.reset_default_graph()
     synth_data =  mg.generateData(nSamples=inputNum,
                                   modelFile='fair-9',
@@ -196,4 +198,3 @@ def train_decaf(train_dataset, dag_seed, biased_edges={}, h_dim=200, lr=0.5e-3,
                                  columns=train_dataset.columns)
 
     return synth_dataset
-
