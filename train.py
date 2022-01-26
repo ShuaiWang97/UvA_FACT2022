@@ -149,17 +149,6 @@ def train_decaf(train_dataset, dag_seed, biased_edges={}, h_dim=200, lr=0.5e-3,
                 batch_size=64, lambda_privacy=0, lambda_gp=10, d_updates=10,
                 alpha=2, rho=2, weight_decay=1e-2, grad_dag_loss=False, l1_g=0,
                 l1_W=1e-4, p_gen=-1, use_mask=True, epochs=10):
-    # Create data preprocessor
-    num_cols = ['age', 'fnlwgt', 'capital-gain', 'capital-loss',
-                'hours-per-week']
-    cat_cols = ['workclass','education', 'education-num', 'marital-status',
-                'occupation', 'relationship', 'race', 'sex', 'native-country',
-                'income']
-    col_order = ['age', 'workclass', 'fnlwgt', 'education', 'education-num',
-                 'marital-status', 'occupation', 'relationship', 'race', 'sex',
-                 'capital-gain', 'capital-loss', 'hours-per-week',
-                 'native-country', 'income']
-
     model_filename = os.path.join(models_dir, 'decaf.pkl')
 
     dm = DataModule(train_dataset.values)
