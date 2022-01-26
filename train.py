@@ -8,9 +8,7 @@ import pandas as pd
 import pytorch_lightning as pl
 import tensorflow as tf
 import torch
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder
+from sklearn.neural_network import MLPClassifier
 from ydata_synthetic.synthesizers import ModelParameters, TrainParameters
 from ydata_synthetic.synthesizers.regular import WGAN_GP, VanilllaGAN
 
@@ -137,7 +135,7 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
                                   batchSize=batch_size,
                                   outFile=out_file)
 
-    print('??????', synth_data.shape)
+
 
     return pd.DataFrame(synth_data,
                         index=train_dataset.index,
@@ -158,22 +156,6 @@ def train_decaf(train_dataset, dag_seed, biased_edges={}, h_dim=200, lr=0.5e-3,
                  'marital-status', 'occupation', 'relationship', 'race', 'sex',
                  'capital-gain', 'capital-loss', 'hours-per-week',
                  'native-country', 'income']
-
-    # num_idx = [col_order.index(col) for col in num_cols]
-    # cat_idx = [col_order.index(col) for col in cat_cols]
-    # numeric_transformer = MinMaxScaler()
-    # cat_transformer = Pipeline(
-    #     steps=[('encoder', OrdinalEncoder()), ('scaler', MinMaxScaler())]
-    # )
-    # preprocessor = ColumnTransformer(
-    #     transformers=[
-    #         ('num', numeric_transformer, num_cols),
-    #         ('cat', cat_transformer, cat_cols),
-    #     ]
-    # )
-
-    # # Preprocess dataset
-    # X = preprocessor.fit_transform(train_dataset)
 
     model_filename = os.path.join(models_dir, 'decaf.pkl')
 
@@ -223,14 +205,3 @@ def train_decaf(train_dataset, dag_seed, biased_edges={}, h_dim=200, lr=0.5e-3,
 
     return synth_dataset
 
-    # X_synth_cat = preprocessor.named_transformers_['cat'].inverse_transform(np.take(X_synth, cat_idx, axis=1))
-    # X_synth_num = preprocessor.named_transformers_['num'].inverse_transform(np.take(X_synth, num_idx, axis=1))
-
-    # X_synth_final = np.empty(X_synth.T.shape, dtype=np.object)
-    # for i, col_idx in enumerate(cat_idx):
-    #     X_synth_final[col_idx] = X_synth_cat[:, i]
-    # for i, col_idx in enumerate(num_idx):
-    #     X_synth_final[col_idx] = X_synth_num[:, i].astype(np.int32)
-    # X_synth_final = X_synth_final.T
-
-    # return pd.DataFrame(X_synth_final, columns=col_order)
