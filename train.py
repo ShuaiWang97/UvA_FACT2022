@@ -26,11 +26,9 @@ def train_vanilla_gan(train_dataset, noise_dim=32, dim=128, batch_size=128,
     model = VanilllaGAN
     model_filename = os.path.join(models_dir, 'vanilla_gan.pkl')
 
-    num_cols = ['age', 'fnlwgt', 'capital-gain', 'capital-loss',
-                'hours-per-week']
-    cat_cols = ['workclass','education', 'education-num', 'marital-status',
-                'occupation', 'relationship', 'race', 'sex', 'native-country',
-                'income']
+    num_cols = ['age', 'hours-per-week']
+    cat_cols = ['workclass','education', 'marital-status', 'occupation',
+                'relationship', 'race', 'sex', 'native-country', 'income']
 
     gan_args = ModelParameters(batch_size=batch_size,
                                lr=learning_rate,
@@ -61,11 +59,9 @@ def train_wgan_gp(train_dataset, noise_dim=128, dim=128, batch_size=500,
     model = WGAN_GP
     model_filename = os.path.join(models_dir, 'wgan_gp.pkl')
 
-    num_cols = ['age', 'fnlwgt', 'capital-gain', 'capital-loss',
-                'hours-per-week']
-    cat_cols = ['workclass','education', 'education-num', 'marital-status',
-                'occupation', 'relationship', 'race', 'sex', 'native-country',
-                'income']
+    num_cols = ['age', 'hours-per-week']
+    cat_cols = ['workclass','education', 'marital-status', 'occupation',
+                'relationship', 'race', 'sex', 'native-country', 'income']
 
     gan_args = ModelParameters(batch_size=batch_size,
                                lr=learning_rate,

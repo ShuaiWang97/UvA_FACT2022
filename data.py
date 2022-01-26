@@ -88,7 +88,8 @@ def load_adult() -> pd.DataFrame:
         if df[col].dtype == "object":
             df = df[df[col] != "?"]
     
-    return df
+    return df.drop(columns=['fnlwgt', 'education-num', 'capital-gain',
+                            'capital-loss'])
 
 
 def preprocess_adult(dataset: pd.DataFrame) -> pd.DataFrame:
