@@ -135,7 +135,11 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
                                   batchSize=batch_size,
                                   outFile=out_file)
 
-
+    mlp = MLPClassifier()
+    X_train, y_train = train_dataset.drop(columns=['income']), train_dataset['income']
+    mlp.fit(X_train, y_train)
+    income = mlp.predict(synth_data)
+    synth_data = np.append(synth_data, income.reshape((len(income), 1)), axis=1)
 
     return pd.DataFrame(synth_data,
                         index=train_dataset.index,
