@@ -6,6 +6,6 @@ pandas==1.2.5
 pytorch-lightning==1.5.8
 scikit-learn==1.0.2
 scipy==1.7.3
+tf_slim==1.1.0
 torch==1.10.1
 ydata-synthetic==0.6.1
-xgboost==1.5.2

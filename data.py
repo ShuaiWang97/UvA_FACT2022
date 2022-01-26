@@ -91,8 +91,8 @@ def load_adult() -> pd.DataFrame:
     return df
 
 
-def preprocess_adult(dataset: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """Preprocess adult data set and split into train and test sets."""
+def preprocess_adult(dataset: pd.DataFrame) -> pd.DataFrame:
+    """Preprocess adult data set."""
 
     replace = [
         [
@@ -209,24 +209,7 @@ def preprocess_adult(dataset: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray, np.
     for row in replace:
         df = df.replace(row, range(len(row)))
 
-    df = df.values
-    X = df[:, :14].astype(np.uint32)
-    X = MinMaxScaler().fit_transform(X)
-    y = df[:, 14].astype(np.uint8)
+    df = pd.DataFrame(MinMaxScaler().fit_transform(df),
+                      index=df.index, columns=df.columns)
 
-    return X, y
-
-
-def generate_synthetic_data(model, data_module: DataModule, biased_edges={}):
-    """Generate synthetic data which is also optionally debiased."""
-    X_synth = (
-        model.gen_synthetic(
-            data_module.dataset.x,
-            gen_order=model.get_gen_order(),
-            biased_edges=biased_edges,
-        )
-        .detach()
-        .numpy()
-    )
-
-    return X_synth[:, :-1], np.rint(X_synth[:,-1]).astype(np.uint8)
+    return df
