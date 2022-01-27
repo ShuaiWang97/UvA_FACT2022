@@ -5,11 +5,4 @@ __pycache__
 .DS_Store
 cache
 **wgan_gp_test
-*.log
-*.log_unfair
-fair_unfair*
 checkpoint
-*.index
-*.meta
-*.data-*
-*.npy

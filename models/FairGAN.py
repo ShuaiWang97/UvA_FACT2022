@@ -432,7 +432,7 @@ class Medgan(object):
                 buf = 'Epoch:%d, d_loss:%f, g_loss:%f, d accuracy:%f, d AUC:%f, g accuracy:%f, rdf %f' % (epoch, np.mean(d_loss_vec), np.mean(g_loss_vec), np.mean(validAccVec), np.mean(validAucVec), np.mean(validAccVec_g), np.mean(r_d_fake))
                 print(buf)
                 self.print2file(buf, logFile+'_unfair')
-            savePath = saver.save(sess, outPath+'_unfair', global_step=epoch)
+            savePath = saver.save(sess, outPath+'_unfair')
             for epoch in range(nEpochs):
                 d_loss_vec= []
                 g_loss_vec = []
@@ -501,7 +501,7 @@ class Medgan(object):
                 self.print2file(buf, logFile)
                 '''
 
-            savePath = saver.save(sess, outPath, global_step=epoch)
+            savePath = saver.save(sess, outPath)
         print(savePath)
 
 def str2bool(v):

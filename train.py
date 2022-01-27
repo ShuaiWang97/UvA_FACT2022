@@ -20,7 +20,7 @@ models_dir = 'cache'
 
 
 def train_vanilla_gan(train_dataset, noise_dim=32, dim=128, batch_size=128,
-                      log_step=100, epochs=10, learning_rate=5e-4, beta_1=0.5,
+                      log_step=100, epochs=50, learning_rate=5e-4, beta_1=0.5,
                       beta_2=0.9):
 
     model = VanilllaGAN
@@ -56,7 +56,7 @@ def train_vanilla_gan(train_dataset, noise_dim=32, dim=128, batch_size=128,
 
 
 def train_wgan_gp(train_dataset, noise_dim=128, dim=128, batch_size=500,
-                  log_step=100, epochs=10, learning_rate=[5e-4, 3e-3],
+                  log_step=100, epochs=50, learning_rate=[5e-4, 3e-3],
                   beta_1=0.5, beta_2=0.9):
     model = WGAN_GP
     model_filename = os.path.join(models_dir, 'wgan_gp.pkl')
@@ -92,13 +92,12 @@ def train_wgan_gp(train_dataset, noise_dim=128, dim=128, batch_size=500,
 def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
                   generator_dims=(128, 128), discriminator_dims=(128, 128),
                   bn_decay=0.99, l2_scale=0.001, batch_size=100,
-                  pretrain_epochs=10, train_epochs=10):
+                  pretrain_epochs=50, train_epochs=10):
     tf.compat.v1.disable_eager_execution()
 
     data = train_dataset.values
 
     data_filename = os.path.join(models_dir, 'adult.npy')
-    model_filename = os.path.join(models_dir, 'fairgan.pkl')
 
     with open(data_filename, 'wb') as data_file:
         pickle.dump(data, data_file)
@@ -117,9 +116,9 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
                 bnDecay=bn_decay,
                 l2scale=l2_scale)
 
-    out_file = 'fair'
+    out_file = os.path.join(models_dir, 'fairgan')
 
-    if not os.path.exists('fair-9.meta'):
+    if not os.path.exists(out_file + '.meta'):
         mg.train(dataPath=data_filename,
                 modelPath='',
                 outPath=out_file,
@@ -133,7 +132,7 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
 
     tf.compat.v1.reset_default_graph()
     synth_data =  mg.generateData(nSamples=inputNum,
-                                  modelFile='fair-9',
+                                  modelFile=out_file,
                                   batchSize=batch_size,
                                   outFile=out_file)
 
@@ -150,7 +149,7 @@ def train_fairgan(train_dataset, embedding_dim=128, random_dim=128,
 def train_decaf(train_dataset, dag_seed, biased_edges={}, h_dim=200, lr=0.5e-3,
                 batch_size=64, lambda_privacy=0, lambda_gp=10, d_updates=10,
                 alpha=2, rho=2, weight_decay=1e-2, grad_dag_loss=False, l1_g=0,
-                l1_W=1e-4, p_gen=-1, use_mask=True, epochs=10):
+                l1_W=1e-4, p_gen=-1, use_mask=True, epochs=50):
     model_filename = os.path.join(models_dir, 'decaf.pkl')
 
     dm = DataModule(train_dataset.values)
