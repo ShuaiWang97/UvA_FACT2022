@@ -195,5 +195,7 @@ def train_decaf(train_dataset, dag_seed, biased_edges={}, h_dim=200, lr=0.5e-3,
     synth_dataset = pd.DataFrame(synth_dataset,
                                  index=train_dataset.index,
                                  columns=train_dataset.columns)
+    synth_dataset['sex'] = np.round(synth_dataset['sex'])
+    synth_dataset['income'] = np.round(synth_dataset['income'])
 
     return synth_dataset
