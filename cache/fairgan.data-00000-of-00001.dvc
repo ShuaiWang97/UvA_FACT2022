@@ -1,0 +1,4 @@
+outs:
+- md5: 469b7af06fc48f823bff99516a8fbd3b
+  size: 1158124
+  path: fairgan.data-00000-of-00001

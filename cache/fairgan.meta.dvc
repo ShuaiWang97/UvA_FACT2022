@@ -1,0 +1,4 @@
+outs:
+- md5: f99ab372f89d56d274e7161b6a0c37ca
+  size: 1009723
+  path: fairgan.meta
