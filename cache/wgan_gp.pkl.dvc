@@ -1,4 +1,4 @@
 outs:
-- md5: b2dd06c6682895102c0f39850cc656e8
+- md5: 6ec2b39d011b661e01ac59833bb45da4
   size: 990511
   path: wgan_gp.pkl
