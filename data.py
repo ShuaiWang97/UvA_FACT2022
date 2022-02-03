@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pytorch_lightning as pl
 import torch
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from torch.utils.data import DataLoader
 
 import logger as log
@@ -213,3 +213,62 @@ def preprocess_adult(dataset: pd.DataFrame) -> pd.DataFrame:
                       index=df.index, columns=df.columns)
 
     return df
+
+
+def load_credit() -> pd.DataFrame:
+    """Load the Credit dataset."""
+    
+    path = "https://archive.ics.uci.edu/ml/machine-learning-databases/credit-screening/crx.data"
+    names = ['male', 'age', 'debt', 'married', 'bankcustomer', 'educationlevel',
+             'ethnicity', 'yearsemployed', 'priordefault', 'employed',
+             'creditscore', 'driverslicense', 'citizen', 'zip', 'income',
+             'approved']
+
+    df = pd.read_csv(path, names=names, index_col=False)
+    df.reset_index(drop=True, inplace=True) 
+    df = df.dropna(how='all')
+    df = df[df.age != '?']
+
+    return df
+
+
+def preprocess_credit(dataset: pd.DataFrame) -> pd.DataFrame:
+    cat_features = ['male', 'married','bankcustomer', 'educationlevel',
+                    'ethnicity','priordefault', 'employed', 'driverslicense',
+                    'citizen', 'zip', 'approved']
+    for feat in cat_features:
+        dataset[feat] = LabelEncoder().fit_transform(dataset[feat])
+    dataset['age'] = pd.to_numeric(dataset['age'], errors='coerce')
+
+    # binarise protected variable
+    dataset.loc[dataset['ethnicity'] <= 4, 'ethnicity'] = 0
+    dataset.loc[dataset['ethnicity'] > 4, 'ethnicity']= 1
+    dataset.loc[dataset['ethnicity'] == 1 , 'employed'] =  1
+
+    dataset[dataset.columns] = MinMaxScaler().fit_transform(dataset)
+
+    return dataset
+
+
+def inject_synth_bias(dataset: pd.DataFrame, bias=0.2) -> pd.DataFrame:
+    """Inject synthetic bias into a dataset."""
+
+    biased_dataset = dataset.copy()
+    biased_dataset.loc[biased_dataset['ethnicity'] > 0.5, 'approved'] = np.logical_and(
+        biased_dataset.loc[biased_dataset['ethnicity'] > 0.5, 'approved'].values,
+        np.random.binomial(
+            1, bias,
+            len(biased_dataset.loc[biased_dataset['ethnicity'] > 0.5, 'approved'])
+        )
+    ).astype(int)
+
+    return biased_dataset
+
+
+
+# [[1, 7], [1, 6], [7, 10], [10, 8], [2, 13], [3, 15], [5, 9], [10, 9], [4, 15], [7, 8], [12, 3], [9, 4], [10, 15], [8, 3], [7, 11], [13, 3], [13, 14], [10, 2], [2, 14], [5, 3], [7, 2], [9, 15], [8, 2], [14, 3], [14, 15], [4, 3], [8, 15], [13, 11], [9, 12], [9, 8]]
+
+# Bias dict FTU:
+# bias_dict_ftu = {15: [6]}
+# Bias dict DP:
+# bias_dict = {15: [6, 9]}
