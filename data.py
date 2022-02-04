@@ -60,12 +60,11 @@ class DataModule(pl.LightningDataModule):
         )
 
 
-def load_adult(test=False) -> pd.DataFrame:
+def load_adult() -> pd.DataFrame:
     """Load the Adult dataset in a pandas dataframe"""
 
     path = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
-    if test:
-        path = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test"
+    test_path = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test"
 
     names = [
         "age",
@@ -84,16 +83,16 @@ def load_adult(test=False) -> pd.DataFrame:
         "native-country",
         "income",
     ]
-    df = pd.read_csv(path, names=names, index_col=False)
+    train_df = pd.read_csv(path, names=names, index_col=False)
+    test_df = pd.read_csv(test_path, names=names, index_col=False)[1:]
+    df = pd.concat([train_df, test_df])
     df = df.applymap(lambda x: x.strip() if type(x) is str else x)
 
     for col in df:
         if df[col].dtype == "object":
             df = df[df[col] != "?"]
     
-    if test:
-        df = df[1:]  # Drop first row as it contains junk
-        df["income"].replace({'<=50K.': '<=50K', '>50K.': '>50K'}, inplace=True)
+    df["income"].replace({'<=50K.': '<=50K', '>50K.': '>50K'}, inplace=True)
 
     return df
 
