@@ -1,4 +1,4 @@
 outs:
-- md5: fccfa45b5793101f1de33d0757b27832
+- md5: 0c47d879ae8ade0610d95d3ba1acd09f
   size: 3689122
   path: vanilla_gan.pkl

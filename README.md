@@ -25,10 +25,12 @@ dvc pull
 
 ## Contents
 
-`triain.py` - Training function for different GAN models, including DECAF, Vanilla_GAN, WGAN_gp, FairGAN.
+`train.py` - Training functions for different GAN models, including DECAF, Vanilla_GAN, WGAN_gp, FairGAN.
 
-`data.py` - Loading data and Preprocessing functions for Adult dataset and Credit dataset.
+`data.py` - Loading data and preprocessing functions for Adult dataset and Credit dataset.
 
 `metrics.py` - Measuring the Data Quality and Fairness.
 
-`experiment_1.ipynb` `experiment_2.ipynb ` - A quick overview of reproduction results.
+`experiment_1.ipynb`, `experiment_2.ipynb ` - A quick overview of reproduction results.
+
+`run_experiment_1.py`, `show_results.py` - Scripts used for generating final results for Experiment 1.
