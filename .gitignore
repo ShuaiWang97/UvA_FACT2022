@@ -6,3 +6,4 @@ __pycache__
 **wgan_gp_test
 checkpoint
 *.csv
+*.pdf
