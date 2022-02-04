@@ -5,3 +5,4 @@ __pycache__
 .DS_Store
 **wgan_gp_test
 checkpoint
+*.csv
