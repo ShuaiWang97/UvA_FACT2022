@@ -60,10 +60,13 @@ class DataModule(pl.LightningDataModule):
         )
 
 
-def load_adult() -> pd.DataFrame:
+def load_adult(test=False) -> pd.DataFrame:
     """Load the Adult dataset in a pandas dataframe"""
 
     path = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+    if test:
+        path = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test"
+
     names = [
         "age",
         "workclass",
@@ -88,6 +91,10 @@ def load_adult() -> pd.DataFrame:
         if df[col].dtype == "object":
             df = df[df[col] != "?"]
     
+    if test:
+        df = df[1:]  # Drop first row as it contains junk
+        df["income"].replace({'<=50K.': '<=50K', '>50K.': '>50K'}, inplace=True)
+
     return df
 
 

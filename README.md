@@ -10,7 +10,7 @@ We use [DVC](https://dvc.org/) for storing trained moodels.
 ## Installation
 
 ```
-pip install virtual env
+virtualenv env
 source env/bin/activate
 pip install -r requirements.txt
 ```

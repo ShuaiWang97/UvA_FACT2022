@@ -1,9 +1,5 @@
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPClassifier
-
 from data import load_adult, preprocess_adult
-from metrics import DP, FTU, eval_model
+from metrics import eval_model
 from train import train_decaf, train_fairgan, train_vanilla_gan, train_wgan_gp
 
 # Define DAG for Adult dataset
@@ -86,11 +82,12 @@ def create_bias_dict(df, edge_map):
 
 
 def train_models(num_runs=10):
-    dataset = preprocess_adult(load_adult())
-    dataset_train, dataset_test = train_test_split(dataset, test_size=2000,
-                                                   stratify=dataset['income'])
+    dataset_train = preprocess_adult(load_adult())
+    dataset_test = preprocess_adult(load_adult(test=True))
 
-    dag_seed = dag_to_idx(dataset, DAG)
+    print('Size of dataset:', len(dataset_train), len(dataset_test))
+
+    dag_seed = dag_to_idx(dataset_train, DAG)
 
     results = {
         'original': {'precision': [], 'recall': [], 'auroc': [], 'dp': [], 'ftu': []},
@@ -103,11 +100,11 @@ def train_models(num_runs=10):
         'decaf_ftu': {'precision': [], 'recall': [], 'auroc': [], 'dp': [], 'ftu': []},
     }
 
-    bias_dict_ftu = create_bias_dict(dataset, {'income': ['sex']})
-    bias_dict_dp = create_bias_dict(dataset, {'income': [
+    bias_dict_ftu = create_bias_dict(dataset_train, {'income': ['sex']})
+    bias_dict_dp = create_bias_dict(dataset_train, {'income': [
         'occupation', 'hours-per-week', 'marital-status', 'education', 'sex',
         'workclass', 'relationship']})
-    bias_dict_cf = create_bias_dict(dataset, {'income': [
+    bias_dict_cf = create_bias_dict(dataset_train, {'income': [
         'marital-status', 'sex']})
     bias_dicts = {'nd': {}, 'dp': bias_dict_dp, 'cf': bias_dict_cf, 'ftu': bias_dict_ftu}
 
