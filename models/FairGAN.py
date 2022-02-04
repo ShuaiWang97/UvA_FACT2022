@@ -1,3 +1,12 @@
+"""
+Code for the FairGAN model was provided by the DECAF authors as part of our
+email correspondence with them. Original source code for the model seems to
+be in the Medgan repository: https://github.com/mp2893/medgan
+
+We made modifications to the original source code in order to make it compatible
+with Tensorflow v2.
+"""
+
 import argparse
 import sys
 import time

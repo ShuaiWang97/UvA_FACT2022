@@ -1,3 +1,8 @@
+"""
+Original source code taken from the official DECAF paper repository:
+https://github.com/vanderschaarlab/DECAF
+"""
+
 # stdlib
 import logging
 import os

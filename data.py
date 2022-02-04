@@ -1,5 +1,12 @@
+"""
+Original source code for manipulating datasets was taken from the official
+DECAF repository: https://github.com/vanderschaarlab/DECAF
+
+We made small changes and added preprocessing.
+"""
+
 from pathlib import Path
-from typing import Any, Tuple
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -269,12 +276,3 @@ def inject_synth_bias(dataset: pd.DataFrame, bias=0.2) -> pd.DataFrame:
     ).astype(int)
 
     return biased_dataset
-
-
-
-# [[1, 7], [1, 6], [7, 10], [10, 8], [2, 13], [3, 15], [5, 9], [10, 9], [4, 15], [7, 8], [12, 3], [9, 4], [10, 15], [8, 3], [7, 11], [13, 3], [13, 14], [10, 2], [2, 14], [5, 3], [7, 2], [9, 15], [8, 2], [14, 3], [14, 15], [4, 3], [8, 15], [13, 11], [9, 12], [9, 8]]
-
-# Bias dict FTU:
-# bias_dict_ftu = {15: [6]}
-# Bias dict DP:
-# bias_dict = {15: [6, 9]}

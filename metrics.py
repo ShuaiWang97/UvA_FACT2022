@@ -1,3 +1,8 @@
+"""
+Code for FTU and DP metrics was provided by the DECAF authors as part of our
+email correspondence with them.
+"""
+
 import numpy as np
 import pandas as pd
 from sklearn.metrics import precision_score, recall_score, roc_auc_score

@@ -1,6 +1,6 @@
 """
-DECAF implementation.
-Taken from the original paper GitHub repository: https://github.com/vanderschaarlab/DECAF
+Original source code taken from the official DECAF paper repository:
+https://github.com/vanderschaarlab/DECAF
 """
 
 from collections import OrderedDict
