@@ -25,6 +25,12 @@ If you want to run the notebooks with pretrained models you need to download the
 dvc pull
 ```
 
-## Get results
+## Contents
 
-A quick overview of results can be seen in experimnet_1.py and experiment_2.py
+`triain.py` - Training function for different GAN models, including DECAF, Vanilla_GAN, WGAN_gp, FairGAN.
+
+`data.py` - Loading data and Preprocessing functions for Adult dataset and Credit dataset.
+
+`metrics.py` - Measuring the Data Quality and Fairness.
+
+`experiment_1.ipynb` `experiment_2.ipynb ` - A quick overview of reproduction results.
