@@ -1,3 +1,8 @@
+"""
+Script for training models for experiment 1, 10 times each.
+We ran this script to obtain final results for the paper.
+"""
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
