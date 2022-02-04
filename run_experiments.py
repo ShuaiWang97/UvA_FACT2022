@@ -110,7 +110,7 @@ def train_models(num_runs=10):
         'marital-status', 'sex']})
     bias_dicts = {'nd': {}, 'dp': bias_dict_dp, 'cf': bias_dict_cf, 'ftu': bias_dict_ftu}
 
-    for model in ['original', 'vanilla_gan', 'wgan_gp', 'fairgan', 'decaf']:
+    for model in [ 'fairgan', 'decaf']:
         for run in range(num_runs):
             dataset_train, dataset_test = train_test_split(
                 dataset, test_size=2000, stratify=dataset['income'])
@@ -149,6 +149,7 @@ def train_models(num_runs=10):
                     model_results = eval_model(synth_data, dataset_test)
                     for key, value in model_results.items():
                         results[model][key].append(value)
+        print(f'{model}: {results[model]}')
 
     for model in results.keys():
         print(f'{model}: {results[model]}')
