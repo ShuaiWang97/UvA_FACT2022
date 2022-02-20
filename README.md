@@ -1,4 +1,7 @@
-# Testing the Replicatability of DECAF
+# Replication Study of DECAF: Generating Fair Synthetic Data Using Causally-Aware Generative
+
+This repository contains all code required to replicate our replication study of the paper NeurIPS 2021 *DECAF: Generating Fair Synthetic Data Using Causally-Aware Generative networks.* We built upon the (incomplete) code provided by the authors to repeat the first experiment which involves removing existing bias from real data with existing bias, and the second experiment where synthetically injected bias is added to real data and then removed.
+
 The original code of DECAF paper is [here]( https://github.com/vanderschaarlab/DECAF)
 
 ## Prerequisites
