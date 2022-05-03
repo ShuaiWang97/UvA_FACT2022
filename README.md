@@ -8,7 +8,7 @@ The original code of DECAF paper is [here]( https://github.com/vanderschaarlab/D
 
 Code is compatible with Python version 3.8.* due to explicit version requirements of some of the project dependencies.
 
-We use [DVC](https://dvc.org/) for storing trained moodels.
+We use [DVC](https://dvc.org/) for storing trained models.
 
 ## Installation
 
